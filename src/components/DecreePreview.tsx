@@ -256,251 +256,157 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
   const ytEmbedUrl = getYoutubeEmbedUrl(videoUrl || '');
 
   return (
-    <div className="meditation-overlay" style={{
-      background: `radial-gradient(circle at center, #07070b 0%, #030304 100%)`
-    }}>
-      {/* Interactive canvas behind everything */}
+    <div
+      className="med-shell"
+      style={{ background: `radial-gradient(ellipse at 30% 40%, #0d0820 0%, #030304 70%)` }}
+    >
+      {/* Fixed particle canvas — always behind everything */}
       <canvas ref={canvasRef} className="meditation-canvas" />
 
-      {/* Background neon dynamic lights */}
+      {/* Ambient energy glow */}
       <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '400px',
-        height: '400px',
+        position: 'fixed', top: '35%', left: '30%',
+        width: '500px', height: '500px',
         background: getEnergyGlowColor(energy),
-        filter: 'blur(160px)',
-        opacity: 0.3,
-        pointerEvents: 'none',
-        borderRadius: '50%',
-        zIndex: 0
+        filter: 'blur(180px)', opacity: 0.25,
+        pointerEvents: 'none', borderRadius: '50%', zIndex: 0
       }} />
 
-      {/* Top Bar Controls */}
-      <div style={{
-        position: 'relative',
-        zIndex: 10,
-        width: '100%',
-        maxWidth: '960px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0 0.5rem',
-        flexShrink: 0
-      }}>
-        {/* Category Pill */}
+      {/* ── TOP BAR (fixed) ── */}
+      <div className="med-topbar">
         <span className="badge-category" style={{
           background: getEnergyGradient(energy),
-          color: '#ffffff',
-          fontWeight: 600,
-          boxShadow: `0 4px 12px ${getEnergyGlowColor(energy)}`
+          color: '#fff', fontWeight: 600,
+          boxShadow: `0 4px 16px ${getEnergyGlowColor(energy)}`
         }}>
           {category}
         </span>
 
-        {/* Ambient Settings */}
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          {/* 432 Hz ambient toggle */}
           <button
             type="button"
             className="btn btn-secondary"
             onClick={toggleZenMusic}
             style={{
-              padding: '0.6rem 1rem',
+              padding: '0.55rem 1rem',
               borderRadius: '9999px',
-              fontSize: '0.85rem',
-              background: isZenMusicPlaying ? 'rgba(168, 85, 247, 0.15)' : 'rgba(255, 255, 255, 0.05)',
-              borderColor: isZenMusicPlaying ? 'var(--accent-purple)' : 'rgba(255, 255, 255, 0.08)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem'
+              fontSize: '0.82rem',
+              background: isZenMusicPlaying ? 'rgba(168,85,247,0.18)' : 'rgba(255,255,255,0.06)',
+              borderColor: isZenMusicPlaying ? 'var(--accent-purple)' : 'rgba(255,255,255,0.1)',
+              display: 'inline-flex', alignItems: 'center', gap: '0.45rem'
             }}
           >
-            {isZenMusicPlaying ? <Volume2 size={16} /> : <VolumeX size={16} />}
-            <span>{isZenMusicPlaying ? 'Frecuencia 432Hz Activa' : 'Frecuencia Relajante'}</span>
+            {isZenMusicPlaying ? <Volume2 size={15} /> : <VolumeX size={15} />}
+            <span className="mobile-hide">{isZenMusicPlaying ? 'Frecuencia 432Hz' : 'Freq. Relajante'}</span>
           </button>
 
+          {/* Video toggle */}
           {videoUrl && ytEmbedUrl && (
             <button
               type="button"
               className="btn btn-secondary btn-icon-only"
-              onClick={() => { audioHelper.playTap(); setShowVideoEmbed(!showVideoEmbed); }}
+              onClick={() => { audioHelper.playTap(); setShowVideoEmbed(v => !v); }}
               style={{
                 borderRadius: '50%',
-                background: showVideoEmbed ? 'rgba(59, 130, 246, 0.25)' : 'rgba(255, 255, 255, 0.08)',
-                borderColor: showVideoEmbed ? '#3b82f6' : 'rgba(255, 255, 255, 0.18)'
+                background: showVideoEmbed ? 'rgba(59,130,246,0.25)' : 'rgba(255,255,255,0.07)',
+                borderColor: showVideoEmbed ? '#3b82f6' : 'rgba(255,255,255,0.15)'
               }}
-              title="Ver Video Relacionado"
+              title="Ver Video"
             >
-              <Video size={22} style={{ color: showVideoEmbed ? '#60a5fa' : 'white' }} />
+              <Video size={20} style={{ color: showVideoEmbed ? '#60a5fa' : 'white' }} />
             </button>
           )}
 
+          {/* Close */}
           <button
             type="button"
             className="btn btn-secondary btn-icon-only"
             onClick={handleExit}
             style={{
               borderRadius: '50%',
-              background: 'rgba(244, 63, 94, 0.22)',
-              borderColor: 'rgba(244, 63, 94, 0.45)',
+              background: 'rgba(244,63,94,0.2)',
+              borderColor: 'rgba(244,63,94,0.45)',
               color: '#ffa3b1',
-              boxShadow: '0 0 12px rgba(244, 63, 94, 0.2)'
+              boxShadow: '0 0 14px rgba(244,63,94,0.25)'
             }}
-            title="Salir del Modo Meditación"
+            title="Salir"
           >
-            <X size={24} />
+            <X size={22} />
           </button>
         </div>
       </div>
 
-      {/* Grid Layout Container */}
-      <div className="meditation-grid-container">
-        
-        {/* Left Panel: Decree details & Media visualizer */}
-        <div className="meditation-left-panel">
-          <div className="meditation-title">{title}</div>
-          
-          <h1 className="meditation-decree" style={{ color: 'white' }}>
-            "{content}"
-          </h1>
+      {/* ── MAIN AREA ── */}
+      <div className="med-main">
 
-          {/* Decree Banner image inside preview */}
+        {/* LEFT: scrollable decree text + media */}
+        <div className="med-left">
+          <p className="med-category-label">{category}</p>
+          <h2 className="med-title">{title}</h2>
+          <blockquote className="med-decree">"{content}"</blockquote>
+
+          {/* Banner image */}
           {imageUrl && !showVideoEmbed && (
             <div style={{
-              maxWidth: '450px',
-              width: '90%',
-              height: '185px',
-              borderRadius: '16px',
+              width: '100%', maxWidth: '480px',
+              height: '200px', borderRadius: '16px',
               overflow: 'hidden',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              boxShadow: 'var(--shadow-md)',
-              animation: 'fade-in-up 0.5s ease-out'
+              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              animation: 'fade-in-up 0.6s ease-out',
+              flexShrink: 0
             }}>
               <img src={imageUrl} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           )}
 
-          {/* Youtube Video Panel */}
+          {/* YouTube video */}
           {showVideoEmbed && ytEmbedUrl && (
-            <div className="glass" style={{
-              maxWidth: '560px',
-              width: '100%',
-              borderRadius: '16px',
-              overflow: 'hidden',
+            <div style={{
+              width: '100%', maxWidth: '560px',
+              borderRadius: '16px', overflow: 'hidden',
               border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
               animation: 'fade-in-up 0.4s ease-out',
-              boxShadow: 'var(--shadow-md)'
+              flexShrink: 0
             }}>
               <div className="video-container">
                 <iframe
                   src={ytEmbedUrl}
-                  title="Reprodutor de Meditación"
+                  title="Meditación Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
               </div>
-              <div style={{ padding: '0.65rem 1rem', fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>Música/Vídeo de Acompañamiento</span>
-                <button
-                  type="button"
-                  className="btn btn-text"
-                  style={{ padding: 0, fontSize: '0.8rem', color: '#fda4af' }}
-                  onClick={() => setShowVideoEmbed(false)}
-                >
-                  Cerrar Video
+              <div style={{
+                padding: '0.6rem 1rem', fontSize: '0.78rem',
+                color: 'var(--text-secondary)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                background: 'rgba(0,0,0,0.3)'
+              }}>
+                <span>Video de Acompañamiento</span>
+                <button type="button" className="btn btn-text"
+                  style={{ padding: 0, fontSize: '0.78rem', color: '#fda4af' }}
+                  onClick={() => setShowVideoEmbed(false)}>
+                  Cerrar
                 </button>
               </div>
             </div>
           )}
-        </div>
 
-        {/* Right Panel: Breathing exercise and tools */}
-        <div className="meditation-right-panel">
-          {showGuide ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%' }}>
-              {/* Morphing circle */}
-              <div
-                className="breathing-dot"
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  border: '2px solid transparent',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.75rem',
-                  fontWeight: '600',
-                  color: 'white',
-                  ...getBreatheProgressCircleStyle()
-                }}
-              >
-                {breatheSeconds}
-              </div>
-
-              <div style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.05rem',
-                  fontWeight: '500',
-                  color: 'white',
-                  letterSpacing: '0.05em'
-                }}>
-                  {getBreatheLabel()}
-                </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.35rem', lineHeight: '1.4' }}>
-                  Respiración cuadrada (4x4) para centrar tu enfoque.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className="btn btn-text"
-                onClick={() => { audioHelper.playTap(); setShowGuide(false); }}
-                style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.5rem' }}
-              >
-                Ocultar Guía de Respiración
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => { audioHelper.playTap(); setShowGuide(true); }}
-              style={{
-                padding: '0.75rem 1.5rem',
-                borderRadius: '9999px',
-                fontSize: '0.85rem',
-                background: 'rgba(255, 255, 255, 0.05)'
-              }}
-            >
-              Activar Guía de Respiración
-            </button>
-          )}
-
-          {/* Related Web Link */}
+          {/* Web link */}
           {linkUrl && (
             <a
-              href={linkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={linkUrl} target="_blank" rel="noopener noreferrer"
               onClick={() => audioHelper.playTap()}
               className="btn btn-secondary"
               style={{
-                padding: '0.75rem 1.25rem',
-                fontSize: '0.85rem',
-                borderRadius: '9999px',
-                color: 'var(--text-primary)',
-                textDecoration: 'none',
-                background: 'rgba(255, 255, 255, 0.05)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                width: 'fit-content',
-                marginTop: '0.5rem'
+                padding: '0.65rem 1.25rem', fontSize: '0.85rem',
+                borderRadius: '9999px', color: 'var(--text-primary)',
+                textDecoration: 'none', background: 'rgba(255,255,255,0.05)',
+                display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+                width: 'fit-content', flexShrink: 0
               }}
             >
               <ExternalLink size={14} />
@@ -508,6 +414,71 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
             </a>
           )}
         </div>
+
+        {/* RIGHT: breathing guide panel (sticky on desktop) */}
+        <div className="med-right">
+          <div className="med-breathe-card">
+            <p style={{
+              fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '1.5rem'
+            }}>Respiración 4×4</p>
+
+            {showGuide ? (
+              <>
+                {/* Animated breathing circle */}
+                <div
+                  className="breathing-dot"
+                  style={{
+                    width: '110px', height: '110px',
+                    border: '2px solid transparent', borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.8rem', fontWeight: '700', color: 'white',
+                    ...getBreatheProgressCircleStyle()
+                  }}
+                >
+                  {breatheSeconds}
+                </div>
+
+                <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1rem', fontWeight: '600', color: 'white',
+                    letterSpacing: '0.04em'
+                  }}>
+                    {getBreatheLabel()}
+                  </div>
+                  <p style={{
+                    fontSize: '0.72rem', color: 'var(--text-secondary)',
+                    marginTop: '0.4rem', lineHeight: '1.5'
+                  }}>
+                    Inhala · Retén · Exhala · Retén
+                  </p>
+                </div>
+
+                <button
+                  type="button" className="btn btn-text"
+                  onClick={() => { audioHelper.playTap(); setShowGuide(false); }}
+                  style={{ fontSize: '0.75rem', opacity: 0.55, marginTop: '1.5rem' }}
+                >
+                  Ocultar guía
+                </button>
+              </>
+            ) : (
+              <button
+                type="button" className="btn btn-secondary"
+                onClick={() => { audioHelper.playTap(); setShowGuide(true); }}
+                style={{
+                  padding: '0.75rem 1.5rem', borderRadius: '9999px',
+                  fontSize: '0.85rem', background: 'rgba(255,255,255,0.06)'
+                }}
+              >
+                Activar Guía
+              </button>
+            )}
+          </div>
+        </div>
+
       </div>
     </div>
   );

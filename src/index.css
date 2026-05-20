@@ -639,171 +639,187 @@ body {
   border: 0;
 }
 
-.meditation-overlay {
+/* ─────────────────────────────────────────────
+   MEDITATION MODULE — 3-Zone Fixed Layout
+   Shell (fixed viewport) → topbar (fixed) + main (flex row)
+   Left = scrollable decree   Right = sticky breathing card
+───────────────────────────────────────────── */
+
+/* 1. Outer shell — fills viewport, nothing overflows */
+.med-shell {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;                   /* top/right/bottom/left: 0 */
   z-index: 100;
-  background: radial-gradient(circle at center, #0d0c1e 0%, #030305 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2rem 1.5rem;
+  overflow: hidden;           /* shell never scrolls */
   color: white;
-  overflow-y: auto;
-  overflow-x: hidden;
-  gap: 2rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-purple) rgba(0, 0, 0, 0.2);
 }
 
-/* Custom scrollbar for meditation overlay */
-.meditation-overlay::-webkit-scrollbar {
-  width: 6px;
+/* 2. Fixed top bar */
+.med-topbar {
+  position: relative;
+  z-index: 20;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.meditation-overlay::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+
+/* 3. Main content area — fills remaining height, never overflows */
+.med-main {
+  flex: 1 1 0;                /* take all remaining height */
+  display: flex;
+  flex-direction: column;     /* stack on mobile */
+  overflow: hidden;           /* children handle their own scroll */
+  position: relative;
+  z-index: 10;
 }
-.meditation-overlay::-webkit-scrollbar-thumb {
+
+/* 4. Left panel — scrollable decree column */
+.med-left {
+  flex: 1 1 0;
+  overflow-y: auto;           /* this is the scroll zone */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 2rem 1.5rem 3rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-purple) rgba(0, 0, 0, 0.15);
+}
+
+.med-left::-webkit-scrollbar { width: 5px; }
+.med-left::-webkit-scrollbar-track { background: transparent; }
+.med-left::-webkit-scrollbar-thumb {
   background: var(--accent-purple);
   border-radius: 3px;
 }
-.meditation-overlay::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-purple-glow);
-}
 
-.meditation-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-.meditation-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 750px;
-  margin: auto;
+/* 5. Right panel — breathing card (stacks below on mobile) */
+.med-right {
+  flex-shrink: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2.5rem;
+  padding: 1.25rem 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.meditation-decree {
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  line-height: 1.5;
-  font-weight: 400;
-  font-style: italic;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fade-in-up 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 0 1rem;
-}
-
-/* Responsive grid layout helpers for meditation */
-.meditation-grid-container {
-  position: relative;
-  z-index: 5;
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
+/* 6. Breathing card */
+.med-breathe-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
-  flex: 1 0 auto;
-}
-
-.meditation-left-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 2rem;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2rem 2.5rem;
   width: 100%;
+  max-width: 340px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-.meditation-right-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100%;
+/* 7. Decree text styles */
+.med-category-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-@media (min-width: 1024px) {
-  .meditation-overlay {
-    padding: 3.5rem 5rem;
-    justify-content: center;
-  }
-
-  .meditation-grid-container {
-    display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
-    gap: 5rem;
-    max-width: 1200px;
-    align-items: center;
-    width: 100%;
-  }
-
-  .meditation-left-panel {
-    align-items: flex-start;
-    text-align: left;
-    gap: 2rem;
-  }
-
-  .meditation-left-panel .meditation-title {
-    font-size: 1.35rem;
-    text-align: left;
-  }
-
-  .meditation-left-panel .meditation-decree {
-    font-size: 2.85rem;
-    line-height: 1.45;
-    text-align: left;
-    padding: 0;
-  }
-
-  .meditation-right-panel {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 28px;
-    padding: 3rem 2rem;
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  }
-}
-
-@keyframes fade-in-up {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.meditation-title {
+.med-title {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--text-secondary);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.med-decree {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  line-height: 1.55;
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  margin: 0;
+  padding: 0;
+  border: none;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: fade-in-up 1.4s forwards cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Desktop layout (≥ 1024px): side-by-side ── */
+@media (min-width: 1024px) {
+  .med-topbar {
+    padding: 1rem 3rem;
+  }
+
+  .med-main {
+    flex-direction: row;      /* left + right side by side */
+    overflow: hidden;
+  }
+
+  .med-left {
+    padding: 3rem 4rem 4rem;
+    gap: 2.25rem;
+  }
+
+  .med-right {
+    flex: 0 0 380px;          /* fixed width right sidebar */
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 3rem 2.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .med-breathe-card {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .med-decree {
+    font-size: 2.4rem;
+    line-height: 1.5;
+  }
+
+  .med-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ── Particle canvas (always fixed behind) ── */
+.meditation-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.65;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes fade-in-up {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .meditation-controls {
@@ -812,6 +828,8 @@ body {
   display: flex;
   gap: 1.5rem;
 }
+
+
 
 /* Custom Grid Configurations */
 .decrees-grid {
