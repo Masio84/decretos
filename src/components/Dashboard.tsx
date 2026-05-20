@@ -252,14 +252,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         {/* Global Toolbar buttons */}
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.65rem' }}>
           <button
             type="button"
             className="btn btn-secondary btn-icon-only"
             onClick={triggerDailyDecree}
+            style={{
+              background: 'rgba(234, 179, 8, 0.1)',
+              borderColor: 'rgba(234, 179, 8, 0.35)',
+              boxShadow: '0 0 10px rgba(234, 179, 8, 0.1)'
+            }}
             title="Decreto del Día"
           >
-            <Sparkles size={18} style={{ color: '#eab308' }} />
+            <Sparkles size={22} style={{ color: '#fbbf24' }} />
           </button>
 
           <button
@@ -267,22 +272,28 @@ export const Dashboard: React.FC<DashboardProps> = ({
             className="btn btn-secondary btn-icon-only"
             onClick={() => { audioHelper.playTap(); setShowSettings(!showSettings); }}
             style={{
-              background: showSettings ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
-              borderColor: showSettings ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'
+              background: showSettings ? 'rgba(255, 255, 255, 0.18)' : 'rgba(255, 255, 255, 0.08)',
+              borderColor: showSettings ? 'var(--accent-purple)' : 'rgba(255, 255, 255, 0.18)',
+              boxShadow: showSettings ? '0 0 12px var(--accent-purple-glow)' : 'none'
             }}
             title="Ajustes y Sincronización"
           >
-            <Settings size={18} />
+            <Settings size={22} style={{ color: showSettings ? 'var(--text-primary)' : 'var(--text-secondary)' }} />
           </button>
 
           <button
             type="button"
             className="btn btn-secondary btn-icon-only"
             onClick={() => { audioHelper.playError(); onLock(); }}
+            style={{ 
+              color: '#fda4af', 
+              background: 'rgba(244, 63, 94, 0.15)', 
+              borderColor: 'rgba(244, 63, 94, 0.4)',
+              boxShadow: '0 0 10px rgba(244, 63, 94, 0.1)'
+            }}
             title="Cerrar Sesión (Bloquear)"
-            style={{ color: '#f43f5e', background: 'rgba(244, 63, 94, 0.05)', borderColor: 'rgba(244, 63, 94, 0.1)' }}
           >
-            <LogOut size={18} />
+            <LogOut size={22} />
           </button>
         </div>
       </header>
@@ -325,7 +336,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="text"
                   placeholder="Usuario GitHub"
                   className="input-glass"
-                  style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                   value={ghUser}
                   onChange={e => setGhUser(e.target.value)}
                 />
@@ -333,7 +344,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="text"
                   placeholder="Repositorio GitHub"
                   className="input-glass"
-                  style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                   value={ghRepo}
                   onChange={e => setGhRepo(e.target.value)}
                 />
@@ -341,7 +352,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="password"
                   placeholder="Personal Access Token (PAT)"
                   className="input-glass"
-                  style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                   value={ghToken}
                   onChange={e => setGhToken(e.target.value)}
                 />
@@ -349,7 +360,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="text"
                   placeholder="Ruta del archivo (decretos.json)"
                   className="input-glass"
-                  style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                   value={ghPath}
                   onChange={e => setGhPath(e.target.value)}
                 />
@@ -395,15 +406,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         }
                       }}
                       className="btn btn-secondary"
-                      style={{ flex: 1, padding: '0.5rem', fontSize: '0.8rem', borderRadius: '10px' }}
+                      style={{ flex: 1, padding: '0.75rem', fontSize: '0.9rem', borderRadius: '12px' }}
                     >
-                      <RefreshCw size={14} className={isSyncing ? 'animate-spin' : ''} />
+                      <RefreshCw size={16} className={isSyncing ? 'animate-spin' : ''} />
                     </button>
                   )}
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    style={{ flex: 3, padding: '0.5rem', fontSize: '0.8rem', borderRadius: '10px' }}
+                    style={{ flex: 3, padding: '0.75rem', fontSize: '0.9rem', borderRadius: '12px' }}
                   >
                     Vincular GitHub
                   </button>
@@ -430,7 +441,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       maxLength={4}
                       placeholder="Nuevo NIP"
                       className="input-glass"
-                      style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                      style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                       value={newPIN}
                       onChange={e => setNewPIN(e.target.value.replace(/\D/g, ''))}
                     />
@@ -439,7 +450,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       maxLength={4}
                       placeholder="Confirmar"
                       className="input-glass"
-                      style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem' }}
+                      style={{ padding: '0.75rem 1rem', fontSize: '0.9rem' }}
                       value={confirmPIN}
                       onChange={e => setConfirmPIN(e.target.value.replace(/\D/g, ''))}
                     />
@@ -458,7 +469,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                   )}
 
-                  <button type="submit" className="btn btn-secondary" style={{ padding: '0.5rem', fontSize: '0.8rem', borderRadius: '10px' }}>
+                  <button type="submit" className="btn btn-secondary" style={{ padding: '0.75rem', fontSize: '0.85rem', borderRadius: '12px' }}>
                     Guardar Nuevo NIP
                   </button>
                 </form>
@@ -473,14 +484,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   onClick={toggleSounds}
                   style={{
                     width: '100%',
-                    padding: '0.5rem 0.75rem',
-                    fontSize: '0.8rem',
-                    borderRadius: '10px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.85rem',
+                    borderRadius: '12px',
                     justifyContent: 'flex-start',
                     gap: '0.5rem'
                   }}
                 >
-                  {isUiSoundsEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                  {isUiSoundsEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
                   <span>{isUiSoundsEnabled ? 'Sonidos de la Interfaz Activados' : 'Sonidos de la Interfaz Silenciados'}</span>
                 </button>
 
@@ -552,15 +563,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   type="button"
                   onClick={handleExportBackup}
                   className="btn btn-secondary"
-                  style={{ padding: '0.5rem', fontSize: '0.8rem', borderRadius: '10px', gap: '0.35rem' }}
+                  style={{ padding: '0.75rem', fontSize: '0.85rem', borderRadius: '12px', gap: '0.35rem' }}
                 >
-                  <Download size={14} /> Exportar
+                  <Download size={16} /> Exportar
                 </button>
                 <label
                   className="btn btn-secondary"
-                  style={{ padding: '0.5rem', fontSize: '0.8rem', borderRadius: '10px', gap: '0.35rem', cursor: 'pointer' }}
+                  style={{ padding: '0.75rem', fontSize: '0.85rem', borderRadius: '12px', gap: '0.35rem', cursor: 'pointer' }}
                 >
-                  <Upload size={14} /> Importar
+                  <Upload size={16} /> Importar
                   <input
                     type="file"
                     accept=".json"
@@ -581,17 +592,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 }}
                 className="btn btn-secondary"
                 style={{
-                  padding: '0.5rem',
-                  fontSize: '0.8rem',
-                  borderRadius: '10px',
-                  color: '#f43f5e',
-                  borderColor: 'rgba(244,63,94,0.15)',
-                  background: 'rgba(244, 63, 94, 0.05)',
-                  marginTop: 'auto',
+                  padding: '0.75rem',
+                  fontSize: '0.85rem',
+                  borderRadius: '12px',
+                  color: '#fda4af',
+                  borderColor: 'rgba(244, 63, 94, 0.35)',
+                  background: 'rgba(244, 63, 94, 0.12)',
+                  marginTop: '1rem',
                   gap: '0.35rem'
                 }}
               >
-                <Trash2 size={14} /> Borrar Todo Localmente
+                <Trash2 size={16} /> Borrar Todo Localmente
               </button>
             </div>
           </div>

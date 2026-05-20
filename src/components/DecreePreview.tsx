@@ -327,12 +327,12 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
               onClick={() => { audioHelper.playTap(); setShowVideoEmbed(!showVideoEmbed); }}
               style={{
                 borderRadius: '50%',
-                background: showVideoEmbed ? 'rgba(59, 130, 246, 0.15)' : 'rgba(255, 255, 255, 0.05)',
-                borderColor: showVideoEmbed ? '#3b82f6' : 'rgba(255, 255, 255, 0.08)'
+                background: showVideoEmbed ? 'rgba(59, 130, 246, 0.25)' : 'rgba(255, 255, 255, 0.08)',
+                borderColor: showVideoEmbed ? '#3b82f6' : 'rgba(255, 255, 255, 0.18)'
               }}
               title="Ver Video Relacionado"
             >
-              <Video size={18} />
+              <Video size={22} style={{ color: showVideoEmbed ? '#60a5fa' : 'white' }} />
             </button>
           )}
 
@@ -340,10 +340,16 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
             type="button"
             className="btn btn-secondary btn-icon-only"
             onClick={handleExit}
-            style={{ borderRadius: '50%', background: 'rgba(244, 63, 94, 0.1)', borderColor: 'rgba(244, 63, 94, 0.2)', color: '#f43f5e' }}
+            style={{
+              borderRadius: '50%',
+              background: 'rgba(244, 63, 94, 0.22)',
+              borderColor: 'rgba(244, 63, 94, 0.45)',
+              color: '#ffa3b1',
+              boxShadow: '0 0 12px rgba(244, 63, 94, 0.2)'
+            }}
             title="Salir del Modo Meditación"
           >
-            <X size={18} />
+            <X size={24} />
           </button>
         </div>
       </div>

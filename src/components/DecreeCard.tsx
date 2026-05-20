@@ -170,17 +170,17 @@ export const DecreeCard: React.FC<DecreeCardProps> = ({ decree, onEdit, onDelete
           <button
             type="button"
             className="btn btn-text"
-            style={{ padding: '0.35rem', color: 'var(--text-secondary)' }}
+            style={{ padding: '0.5rem', color: 'var(--text-secondary)' }}
             onClick={() => { audioHelper.playTap(); onEdit(decree); }}
             title="Editar Decreto"
           >
-            <Edit3 size={16} />
+            <Edit3 size={18} />
           </button>
           
           <button
             type="button"
             className="btn btn-text"
-            style={{ padding: '0.35rem', color: '#f43f5e' }}
+            style={{ padding: '0.5rem', color: '#fda4af' }}
             onClick={() => {
               if (confirm('¿Estás seguro de que deseas eliminar este decreto de vida?')) {
                 audioHelper.playError();
@@ -189,23 +189,27 @@ export const DecreeCard: React.FC<DecreeCardProps> = ({ decree, onEdit, onDelete
             }}
             title="Eliminar Decreto"
           >
-            <Trash2 size={16} />
+            <Trash2 size={18} />
           </button>
 
           <button
             type="button"
             className="btn btn-text"
             style={{
-              padding: '0.35rem',
+              padding: '0.5rem',
               color: 'var(--accent-purple)',
-              background: 'rgba(168, 85, 247, 0.1)',
+              background: 'rgba(168, 85, 247, 0.15)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
               borderRadius: '50%',
-              marginLeft: '0.25rem'
+              marginLeft: '0.35rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
             onClick={() => { audioHelper.playTap(); onPreview(decree); }}
             title="Visualizar (Meditación)"
           >
-            <Eye size={16} />
+            <Eye size={18} />
           </button>
         </div>
       </div>
