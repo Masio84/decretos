@@ -712,6 +712,84 @@ body {
   padding: 0 1rem;
 }
 
+/* Responsive grid layout helpers for meditation */
+.meditation-grid-container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  flex: 1 0 auto;
+}
+
+.meditation-left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.meditation-right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .meditation-overlay {
+    padding: 3.5rem 5rem;
+    justify-content: center;
+  }
+
+  .meditation-grid-container {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 5rem;
+    max-width: 1200px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .meditation-left-panel {
+    align-items: flex-start;
+    text-align: left;
+    gap: 2rem;
+  }
+
+  .meditation-left-panel .meditation-title {
+    font-size: 1.35rem;
+    text-align: left;
+  }
+
+  .meditation-left-panel .meditation-decree {
+    font-size: 2.85rem;
+    line-height: 1.45;
+    text-align: left;
+    padding: 0;
+  }
+
+  .meditation-right-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+}
+
 @keyframes fade-in-up {
   to {
     opacity: 1;
