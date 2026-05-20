@@ -639,7 +639,6 @@ body {
   border: 0;
 }
 
-/* Meditation Mode Styles */
 .meditation-overlay {
   position: fixed;
   top: 0;
@@ -651,13 +650,33 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 2.5rem 1.5rem;
+  justify-content: flex-start;
+  padding: 2rem 1.5rem;
   color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-purple) rgba(0, 0, 0, 0.2);
+}
+
+/* Custom scrollbar for meditation overlay */
+.meditation-overlay::-webkit-scrollbar {
+  width: 6px;
+}
+.meditation-overlay::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.meditation-overlay::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 3px;
+}
+.meditation-overlay::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple-glow);
 }
 
 .meditation-canvas {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

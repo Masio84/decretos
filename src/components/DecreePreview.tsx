@@ -287,7 +287,8 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 0.5rem'
+        padding: '0 0.5rem',
+        flexShrink: 0
       }}>
         {/* Category Pill */}
         <span className="badge-category" style={{
@@ -355,7 +356,7 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
       </div>
 
       {/* Main Focus Content */}
-      <div className="meditation-content" style={{ zIndex: 5 }}>
+      <div className="meditation-content" style={{ zIndex: 5, margin: 'auto 0', flexShrink: 0 }}>
         {/* Decree Banner image inside preview */}
         {imageUrl && !showVideoEmbed && (
           <div style={{
@@ -448,7 +449,8 @@ export const DecreePreview: React.FC<DecreePreviewProps> = ({ decree, onClose })
         flexDirection: 'column',
         alignItems: 'center',
         gap: '1.25rem',
-        marginBottom: '2rem'
+        marginBottom: '2rem',
+        flexShrink: 0
       }}>
         {showGuide ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
