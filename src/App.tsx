@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 import { PINScreen } from './components/PINScreen';
 import { Dashboard } from './components/Dashboard';
@@ -34,6 +34,14 @@ export const App: React.FC = () => {
   
   // Data States
   const [decrees, setDecrees] = useState<Decree[]>([]);
+
+  // Theme State & Sync Effect
+  const [activeTheme, setActiveTheme] = useState<string>(() => localStorage.getItem('decretos_theme') || 'quantum');
+
+  useEffect(() => {
+    document.documentElement.className = `theme-${activeTheme}`;
+    localStorage.setItem('decretos_theme', activeTheme);
+  }, [activeTheme]);
 
   // GitHub Configurations
   const [gitHubConfig, setGitHubConfig] = useState<{
@@ -396,6 +404,8 @@ export const App: React.FC = () => {
           }}
           onClearData={handleClearData}
           onImportBackup={handleImportBackup}
+          activeTheme={activeTheme}
+          onChangeTheme={setActiveTheme}
         />
       )}
 

@@ -39,6 +39,8 @@ interface DashboardProps {
   onResetPIN: (newHash: string) => void;
   onClearData: () => void;
   onImportBackup: (data: Decree[]) => void;
+  activeTheme: string;
+  onChangeTheme: (theme: string) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -55,7 +57,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
   lastSyncTime,
   onResetPIN,
   onClearData,
-  onImportBackup
+  onImportBackup,
+  activeTheme,
+  onChangeTheme
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -479,6 +483,57 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   {isUiSoundsEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                   <span>{isUiSoundsEnabled ? 'Sonidos de la Interfaz Activados' : 'Sonidos de la Interfaz Silenciados'}</span>
                 </button>
+
+                <div style={{ marginTop: '0.75rem' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+                    Paleta de Colores Activa:
+                  </span>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.35rem' }}>
+                    {[
+                      { id: 'quantum', name: 'Quantum Ocean', color: '#06b6d4' },
+                      { id: 'stealth', name: 'Stealth Crimson', color: '#e11d48' },
+                      { id: 'cyberpunk', name: 'Cyberpunk Volt', color: '#84cc16' },
+                      { id: 'ember', name: 'Titanium Ember', color: '#f97316' },
+                      { id: 'boreal', name: 'Boreal Forest', color: '#10b981' },
+                    ].map(t => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => {
+                          audioHelper.playTap();
+                          onChangeTheme(t.id);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.35rem',
+                          padding: '0.4rem 0.5rem',
+                          fontSize: '0.7rem',
+                          borderRadius: '8px',
+                          border: activeTheme === t.id ? '1px solid var(--accent-purple)' : '1px solid rgba(255, 255, 255, 0.08)',
+                          background: activeTheme === t.id ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                          color: activeTheme === t.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          fontWeight: activeTheme === t.id ? '600' : '400',
+                          transition: 'all 0.2s ease',
+                          outline: 'none',
+                          justifyContent: 'flex-start'
+                        }}
+                      >
+                        <span style={{
+                          width: '8px',
+                          height: '8px',
+                          borderRadius: '50%',
+                          backgroundColor: t.color,
+                          boxShadow: `0 0 6px ${t.color}`,
+                          flexShrink: 0
+                        }} />
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
